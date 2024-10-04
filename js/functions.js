@@ -9,9 +9,9 @@ const checkLengthString = function(phrase, maxLength){
 const checkPalindrome = function(phrase){
   let normalString = phrase.replaceAll(' ','');
   normalString = normalString.toUpperCase();
-  let newPhrase='';
-  for (let i=normalString.length-1; i>=0;i--){
-    newPhrase+=normalString[i];
+  let newPhrase = '';
+  for (let i = normalString.length - 1; i >= 0;i--){
+    newPhrase += normalString[i];
   }
   if (newPhrase === normalString){
     return true;
@@ -19,3 +19,5 @@ const checkPalindrome = function(phrase){
   return false;
 };
 
+checkLengthString();
+checkPalindrome();
