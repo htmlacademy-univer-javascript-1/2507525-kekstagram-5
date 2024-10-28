@@ -1,3 +1,5 @@
 import { generatePhotos } from './data.mjs';
+import { renderPhotos } from './renderPhotos.mjs';
 
-generatePhotos();
+const photos = generatePhotos();
+renderPhotos(photos);
