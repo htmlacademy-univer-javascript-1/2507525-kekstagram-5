@@ -1,3 +1,5 @@
+import { displayFullPhoto } from './displayFullPhoto.mjs';
+
 export function renderPhotos(photos) {
   const picturesContainer = document.querySelector('.pictures');
   const fragment = document.createDocumentFragment();
@@ -10,6 +12,9 @@ export function renderPhotos(photos) {
     pictureElement.querySelector('.picture__img').alt = photo.description;
     pictureElement.querySelector('.picture__likes').textContent = photo.likes;
     pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
+    pictureElement.querySelector('.picture').addEventListener('click', () => {
+      displayFullPhoto(photo);
+    });
 
     fragment.appendChild(pictureElement);
   });
