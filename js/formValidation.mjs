@@ -1,3 +1,5 @@
+import { applyFilters, resetFilters, resetScale } from './imageEditor.mjs';
+
 export function initForm() {
   const form = document.querySelector('.img-upload__form');
   const pristine = new Pristine(form, {
@@ -56,6 +58,8 @@ export function initForm() {
     body.classList.remove('modal-open');
     form.reset();
     fileInput.value = '';
+    resetFilters();
+    resetScale();
   };
 
   cancelButton.addEventListener('click', closeForm);
@@ -90,7 +94,9 @@ export function initForm() {
       body.classList.add('modal-open');
       const reader = new FileReader();
       reader.onload = function (e) {
-        document.querySelector('.img-upload__preview img').src = e.target.result;
+        const imagePreview = document.querySelector('.img-upload__preview img');
+        imagePreview.src = e.target.result;
+        applyFilters(imagePreview);
       };
       reader.readAsDataURL(file);
     }
