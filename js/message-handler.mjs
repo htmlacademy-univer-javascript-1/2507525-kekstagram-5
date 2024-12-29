@@ -15,15 +15,18 @@ const showDataLoadError = () => {
   errorMessage.textContent = 'Ошибка загрузки данных';
 
   Object.assign(errorMessage.style, {
-    position: 'fixed',
-    top: '20px',
+    position: 'absolute',
+    bottom: '10px',
     left: '50%',
     transform: 'translateX(-50%)',
-    fontSize: '16px',
-    backgroundColor: 'red',
-    padding: '20px',
-    borderRadius: '5px',
-    zIndex: Z_INDEX
+    fontSize: '18px',
+    color: 'white',
+    backgroundColor: '#d9534f',
+    padding: '15px 25px',
+    borderRadius: '8px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    zIndex: Z_INDEX,
+    border: '2px solid #c9302c',
   });
 
   document.body.appendChild(errorMessage);

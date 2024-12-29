@@ -1,6 +1,6 @@
-import { openBigPicture } from './displayFullPhoto.mjs';
+import { openBigPicture } from './photo-viewer.mjs';
 import { sendRequest, filterDefault, filterRandom, filterDiscussed, debounce } from './util.mjs';
-import { showDataLoadError } from './messages.mjs';
+import { showDataLoadError } from './message-handler.mjs';
 
 const DATA_URL = 'https://29.javascript.htmlacademy.pro/kekstagram/data';
 const DEFAULT_DEBOUNCE_DELAY = 500;

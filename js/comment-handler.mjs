@@ -1,31 +1,35 @@
-const COMMENTS_LOAD_STEP = 5;
+const LOAD_COMMENTS_STEP = 5;
 const bigPicture = document.querySelector('.big-picture');
 const commentsList = bigPicture.querySelector('.social__comments');
 const commentTemplate = commentsList.querySelector('.social__comment');
 const loadCommentsButton = bigPicture.querySelector('.comments-loader');
-const сommentsCountData = bigPicture.querySelector('.social__comment-count');
+const commentsCountData = bigPicture.querySelector('.social__comment-count');
 
-let displayedCommentsCount = COMMENTS_LOAD_STEP;
+let displayedCommentsCount = LOAD_COMMENTS_STEP;
 let allComments = [];
 
 const replaceAllComments = (newComments = []) => {
-  allComments = newComments;
+  allComments = [...newComments];
 };
 
 const updateDisplayedCommentsCount = (newCount) => {
   displayedCommentsCount = newCount;
 };
 
-const createCommentElement = (comment) => {
+const createCommentElement = ({ avatar, name, message }) => {
   const commentElement = commentTemplate.cloneNode(true);
-  commentElement.querySelector('.social__picture').src = comment.avatar;
-  commentElement.querySelector('.social__picture').alt = comment.name;
-  commentElement.querySelector('.social__text').textContent = comment.message;
+  const pictureElement = commentElement.querySelector('.social__picture');
+  pictureElement.src = avatar;
+  pictureElement.alt = name;
+  commentElement.querySelector('.social__text').textContent = message;
   return commentElement;
 };
 
 const updateCommentsCountData = () => {
-  сommentsCountData.innerHTML = `<span class="social__comment-shown-count">${displayedCommentsCount}</span> из <span class="social__comment-total-count">${allComments.length}</span> комментариев`;
+  commentsCountData.innerHTML = `
+    <span class="social__comment-shown-count">${displayedCommentsCount}</span> из
+    <span class="social__comment-total-count">${allComments.length}</span> комментариев
+  `;
 };
 
 const renderComments = () => {
@@ -33,22 +37,23 @@ const renderComments = () => {
   const commentsFragment = document.createDocumentFragment();
   displayedCommentsCount = Math.min(displayedCommentsCount, allComments.length);
   const commentsToDisplay = allComments.slice(0, displayedCommentsCount);
+
   updateCommentsCountData();
 
-  if (allComments.length <= COMMENTS_LOAD_STEP || displayedCommentsCount >= allComments.length) {
+  if (displayedCommentsCount >= allComments.length) {
     loadCommentsButton.classList.add('hidden');
   } else {
     loadCommentsButton.classList.remove('hidden');
   }
 
-  commentsToDisplay.forEach((comment) => {
-    commentsFragment.appendChild(createCommentElement(comment));
-  });
+  const commentElements = commentsToDisplay.map((comment) => createCommentElement(comment));
+  commentElements.forEach((commentElement) => commentsFragment.appendChild(commentElement));
+
   commentsList.appendChild(commentsFragment);
 };
 
 const onLoadCommentsButtonClick = () => {
-  displayedCommentsCount += COMMENTS_LOAD_STEP;
+  displayedCommentsCount += LOAD_COMMENTS_STEP;
   renderComments();
 };
 
