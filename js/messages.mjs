@@ -1,5 +1,5 @@
 import { isEscapeKey } from './util.mjs';
-import { closeOverlay, setErrorMessageStatus } from './form-handler.mjs';
+import { closeOverlay, setErrorMessageVisibility } from './form-handler.mjs';
 
 const Z_INDEX = 999;
 const successTemplate = document.querySelector('#success');
@@ -62,8 +62,8 @@ const showSuccessMessage = () => {
 };
 
 const showErrorMessage = () => {
-  setErrorMessageStatus(true);
-  createMessage(errorTemplate, '.error', () => setErrorMessageStatus(false));
+  setErrorMessageVisibility(true);
+  createMessage(errorTemplate, '.error', () => setErrorMessageVisibility(false));
 };
 
 export { showDataLoadError, showSuccessMessage, showErrorMessage };

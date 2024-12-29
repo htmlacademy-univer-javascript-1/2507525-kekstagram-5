@@ -1,6 +1,6 @@
-const MAX_HASHTAGS = 5;
-const MAX_DESCRIPTION_LENGTH = 140;
-const RANDOM_PICTURES_COUNT = 10;
+const HASHTAGS_LIMIT = 5;
+const DESCRIPTION_LENGTH_LIMIT = 140;
+const NUM_RANDOM_PICTURES = 10;
 
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -29,7 +29,7 @@ const parseInput = (value) => value.trim().toLowerCase().split(/\s+/);
 
 const validateHashtagsCount = (value) => {
   const hashtags = parseInput(value);
-  return hashtags.length <= MAX_HASHTAGS;
+  return hashtags.length <= HASHTAGS_LIMIT;
 };
 
 const validateHashtagsUnique = (value) => {
@@ -44,7 +44,7 @@ const validateHashtagsPattern = (value) => {
   return !value || hashtags[0] === '' || hashtags.every((hashtag) => hashtagPattern.test(hashtag));
 };
 
-const validateDescriptionLength = (value) => !value || value.length <= MAX_DESCRIPTION_LENGTH;
+const validateDescriptionLength = (value) => !value || value.length <= DESCRIPTION_LENGTH_LIMIT;
 
 const sendRequest = ({ url, method = 'GET', body = null, onSuccess, onError, onFinally }) =>
   fetch(url, {
@@ -79,7 +79,7 @@ const filterDefault = (pictures) => pictures.slice();
 
 const filterRandom = (pictures) => {
   const randomPictures = pictures.slice().sort(() => 0.5 - Math.random());
-  return randomPictures.slice(0, RANDOM_PICTURES_COUNT);
+  return randomPictures.slice(0, NUM_RANDOM_PICTURES);
 };
 
 const filterDiscussed = (pictures) => {

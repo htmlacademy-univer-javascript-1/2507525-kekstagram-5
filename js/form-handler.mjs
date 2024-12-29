@@ -1,85 +1,85 @@
 import { isEscapeKey } from './util.mjs';
 import { initializeValidation } from './validation.mjs';
-import { submitForm } from './form-submit.mjs';
+import { handleSubmitForm } from './form-submit.mjs';
 import { resetScale } from './image-scale.mjs';
-import { resetEffect } from './image-effects.mjs';
+import { resetImageFilters } from './image-effects.mjs';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
-const uploadForm = document.querySelector('.img-upload__form');
-const imageUploadInput = document.querySelector('.img-upload__input');
-const imageEditForm = document.querySelector('.img-upload__overlay');
-const closeEditFormButton = document.querySelector('.img-upload__cancel');
-const imageScale = document.querySelector('.scale__control--value');
-const effectLevel = document.querySelector('.effect-level__value');
-const hashtagsInput = document.querySelector('.text__hashtags');
-const descriptionInput = document.querySelector('.text__description');
-const effectButtons = document.querySelectorAll('.effects__radio');
-const previewImage = document.querySelector('.img-upload__preview img');
-const previewElements = document.querySelectorAll('.effects__preview');
+const uploadFormElement = document.querySelector('.img-upload__form');
+const imageInputElement = document.querySelector('.img-upload__input');
+const imageEditOverlay = document.querySelector('.img-upload__overlay');
+const closeOverlayButton = document.querySelector('.img-upload__cancel');
+const imageScaleControl = document.querySelector('.scale__control--value');
+const effectSliderValue = document.querySelector('.effect-level__value');
+const hashtagsInputField = document.querySelector('.text__hashtags');
+const descriptionInputField = document.querySelector('.text__description');
+const effectRadioBtns = document.querySelectorAll('.effects__radio');
+const imagePreviewElement = document.querySelector('.img-upload__preview img');
+const effectPreviewElements = document.querySelectorAll('.effects__preview');
 
-let isErrorMessageOpen = false;
+let isErrorMessageVisible = false;
 
-const pristine = initializeValidation(uploadForm, hashtagsInput, descriptionInput);
-submitForm(uploadForm, pristine);
+const validationInstance = initializeValidation(uploadFormElement, hashtagsInputField, descriptionInputField);
+handleSubmitForm(uploadFormElement, validationInstance);
 
-imageUploadInput.addEventListener('change', () => {
-  if (imageUploadInput.files.length > 0) {
-    pristine.reset();
-    const file = imageUploadInput.files[0];
+imageInputElement.addEventListener('change', () => {
+  if (imageInputElement.files.length > 0) {
+    validationInstance.reset();
+    const file = imageInputElement.files[0];
     const fileName = file.name.toLowerCase();
-    const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+    const matches = FILE_TYPES.some((type) => fileName.endsWith(type));
 
     if (matches) {
-      const imgUrl = URL.createObjectURL(file);
-      previewImage.src = imgUrl;
-      previewElements.forEach((element) => {
-        element.style.backgroundImage = `url(${imgUrl})`;
+      const imageUrl = URL.createObjectURL(file);
+      imagePreviewElement.src = imageUrl;
+      effectPreviewElements.forEach((element) => {
+        element.style.backgroundImage = `url(${imageUrl})`;
       });
-      imageEditForm.classList.remove('hidden');
+      imageEditOverlay.classList.remove('hidden');
       document.body.classList.add('modal-open');
     }
   }
 });
 
 const resetFormFields = () => {
-  imageUploadInput.value = '';
-  imageScale.value = '100%';
-  effectLevel.value = '';
-  effectButtons.forEach((button) => {
+  imageInputElement.value = '';
+  imageScaleControl.value = '100%';
+  effectSliderValue.value = '';
+  effectRadioBtns.forEach((button) => {
     button.checked = button.id === 'effect-none';
   });
-  hashtagsInput.value = '';
-  descriptionInput.value = '';
+  hashtagsInputField.value = '';
+  descriptionInputField.value = '';
 };
 
 const closeOverlay = () => {
-  imageEditForm.classList.add('hidden');
+  imageEditOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   resetFormFields();
-  pristine.reset();
+  validationInstance.reset();
   resetScale();
-  resetEffect();
+  resetImageFilters();
 
-  closeEditFormButton.removeEventListener('click', closeOverlay);
+
 };
 
-const isInputFieldFocused = (evt) => evt.target === hashtagsInput || evt.target === descriptionInput;
+const isInputFieldFocused = (event) => event.target === hashtagsInputField || event.target === descriptionInputField;
 
-const setErrorMessageStatus = (status) => {
-  isErrorMessageOpen = status;
+const setErrorMessageVisibility = (status) => {
+  isErrorMessageVisible = status;
 };
 
-const onEscapeKeyDown = (evt) => {
-  if (isEscapeKey(evt) && !isInputFieldFocused(evt) && !isErrorMessageOpen) {
+const onEscapeKeyDown = (event) => {
+  if (isEscapeKey(event) && !isInputFieldFocused(event) && !isErrorMessageVisible) {
     closeOverlay();
   }
 };
 
 const addEventListeners = () => {
-  closeEditFormButton.addEventListener('click', closeOverlay);
+  closeOverlayButton.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', onEscapeKeyDown);
 };
 
 addEventListeners();
 
-export { closeOverlay, setErrorMessageStatus };
+export { closeOverlay, setErrorMessageVisibility };

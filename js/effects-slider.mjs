@@ -1,24 +1,26 @@
-import { applyEffect, resetEffect } from './image-effects.mjs';
+import { setImageEffect, resetImageFilters } from './image-effects.mjs';
 
-const DEFAULT_RANGE = { min: 0, max: 1 };
-const DEFAULT_START = 1;
-const DEFAULT_STEP = 0.1;
-const EFFECT_OPTIONS = {
+const SLIDER_DEFAULT = { min: 0, max: 1 };
+const INITIAL_VALUE = 1;
+const STEP_VALUE = 0.1;
+
+const EFFECT_PROPERTIES = {
   chrome: { range: { min: 0, max: 1 }, step: 0.1, start: 1 },
   sepia: { range: { min: 0, max: 1 }, step: 0.1, start: 1 },
   marvin: { range: { min: 0, max: 100 }, step: 1, start: 100 },
   phobos: { range: { min: 0, max: 3 }, step: 0.1, start: 3 },
   heat: { range: { min: 1, max: 3 }, step: 0.1, start: 3 },
 };
-const effectRadioButtons = document.querySelectorAll('.effects__radio');
-const effectLevelContainer = document.querySelector('.img-upload__effect-level');
-const effectLevelSlider = document.querySelector('.effect-level__slider');
-const effectLevelValue = document.querySelector('.effect-level__value');
 
-noUiSlider.create(effectLevelSlider, {
-  range: DEFAULT_RANGE,
-  start: DEFAULT_START,
-  step: DEFAULT_STEP,
+const effectRadioBtns = document.querySelectorAll('.effects__radio');
+const effectSlider = document.querySelector('.effect-level__slider');
+const effectValueDisplay = document.querySelector('.effect-level__value');
+const effectSliderContainer = document.querySelector('.effect-level');
+
+noUiSlider.create(effectSlider, {
+  range: SLIDER_DEFAULT,
+  start: INITIAL_VALUE,
+  step: STEP_VALUE,
   connect: 'lower',
   format: {
     to: (value) => value,
@@ -26,31 +28,42 @@ noUiSlider.create(effectLevelSlider, {
   },
 });
 
-const updateSliderOptions = (effect) => {
-  const options = EFFECT_OPTIONS[effect];
-  effectLevelSlider.noUiSlider.updateOptions({
-    range: options.range,
-    step: options.step,
-    start: options.start,
+const updateSliderSettings = (effect) => {
+  const settings = EFFECT_PROPERTIES[effect];
+  effectSlider.noUiSlider.updateOptions({
+    range: settings.range,
+    step: settings.step,
+    start: settings.start,
   });
-  applyEffect(effect, options.start);
+  setImageEffect(effect, settings.start);
 };
 
-const onEffectChange = () => {
-  const selectedEffect = document.querySelector('.effects__radio:checked').value;
-  if (selectedEffect === 'none') {
-    resetEffect();
+const getSelectedEffect = () => document.querySelector('.effects__radio:checked').value;
+
+const handleSliderVisibility = (effect) => {
+  effectSliderContainer.style.display = effect === 'none' ? 'none' : 'block';
+};
+
+const onEffectRadioChange = () => {
+  const selectedEffect = getSelectedEffect();
+  handleSliderVisibility(selectedEffect);
+  if (selectedEffect !== 'none') {
+    updateSliderSettings(selectedEffect);
   } else {
-    effectLevelContainer.style.display = 'block';
-    updateSliderOptions(selectedEffect);
+    resetImageFilters();
   }
 };
 
-effectRadioButtons.forEach((effect) => effect.addEventListener('change', onEffectChange));
+const onSliderUpdate = (values) => {
+  const effect = getSelectedEffect();
+  const value = values[0];
+  effectValueDisplay.value = value;
+  setImageEffect(effect, value);
+};
 
-effectLevelSlider.noUiSlider.on('update', (values, handle) => {
-  const effect = document.querySelector('.effects__radio:checked').value;
-  const value = values[handle];
-  effectLevelValue.value = value;
-  applyEffect(effect, value);
-});
+const addEventListeners = () => {
+  effectRadioBtns.forEach((btn) => btn.addEventListener('change', onEffectRadioChange));
+  effectSlider.noUiSlider.on('update', onSliderUpdate);
+};
+
+addEventListeners();
