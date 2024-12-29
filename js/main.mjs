@@ -1,6 +1,6 @@
-import { fetchPictures } from './pictures.mjs';
+import { fetchPictures } from './image-gallery.mjs';
 import './form-handler.mjs';
-import './image-scale.mjs';
-import './effects-slider.mjs';
+import './photo-scaler.mjs';
+import './slider-effects.mjs';
 
 fetchPictures();

@@ -1,8 +1,8 @@
 import { isEscapeKey } from './util.mjs';
-import { initializeValidation } from './validation.mjs';
+import { initializeValidation } from './input-validator.mjs';
 import { handleSubmitForm } from './form-submit.mjs';
-import { resetScale } from './image-scale.mjs';
-import { resetImageFilters } from './image-effects.mjs';
+import { resetScale } from './photo-scaler.mjs';
+import { resetImageFilters } from './photo-effects.mjs';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const uploadFormElement = document.querySelector('.img-upload__form');

@@ -1,5 +1,5 @@
 import { sendRequest } from './util.mjs';
-import { showSuccessMessage, showErrorMessage } from './messages.mjs';
+import { showSuccessMessage, showErrorMessage } from './message-handler.mjs';
 
 const POST_URL = 'https://29.javascript.htmlacademy.pro/kekstagram/';
 

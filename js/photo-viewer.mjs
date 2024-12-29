@@ -1,5 +1,5 @@
 import { isEscapeKey } from './util.mjs';
-import { replaceAllComments, updateDisplayedCommentsCount, renderComments, onLoadCommentsButtonClick } from './comments.mjs';
+import { replaceAllComments, updateDisplayedCommentsCount, renderComments, onLoadCommentsButtonClick } from './comment-handler.mjs';
 
 const COMMENTS_LOAD_STEP = 5;
 const bigPicture = document.querySelector('.big-picture');
