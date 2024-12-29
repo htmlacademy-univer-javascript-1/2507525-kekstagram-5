@@ -1,34 +1,34 @@
-const imagePreview = document.querySelector('.img-upload__preview img');
-const effectLevelContainer = document.querySelector('.img-upload__effect-level');
-const effectLevelValue = document.querySelector('.effect-level__value');
+const previewImageElement = document.querySelector('.img-upload__preview img');
+const effectSliderContainer = document.querySelector('.img-upload__effect-level');
+const effectValueElement = document.querySelector('.effect-level__value');
 
-const resetEffect = () => {
-  effectLevelContainer.style.display = 'none';
-  imagePreview.style.filter = '';
-  effectLevelValue.value = '';
+const resetImageFilters = () => {
+  effectSliderContainer.style.display = 'none';
+  previewImageElement.style.filter = '';
+  effectValueElement.value = '';
 };
 
-const applyEffect = (effect, value) => {
-  switch (effect) {
+const setImageEffect = (effectType, intensity) => {
+  switch (effectType) {
     case 'chrome':
-      imagePreview.style.filter = `grayscale(${value})`;
+      previewImageElement.style.filter = `grayscale(${intensity})`;
       break;
     case 'sepia':
-      imagePreview.style.filter = `sepia(${value})`;
+      previewImageElement.style.filter = `sepia(${intensity})`;
       break;
     case 'marvin':
-      imagePreview.style.filter = `invert(${value}%)`;
+      previewImageElement.style.filter = `invert(${intensity}%)`;
       break;
     case 'phobos':
-      imagePreview.style.filter = `blur(${value}px)`;
+      previewImageElement.style.filter = `blur(${intensity}px)`;
       break;
     case 'heat':
-      imagePreview.style.filter = `brightness(${value})`;
+      previewImageElement.style.filter = `brightness(${intensity})`;
       break;
     default:
-      resetEffect();
+      resetImageFilters();
       break;
   }
 };
 
-export { resetEffect, applyEffect };
+export { resetImageFilters, setImageEffect };

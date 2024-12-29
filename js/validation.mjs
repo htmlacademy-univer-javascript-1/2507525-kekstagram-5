@@ -7,28 +7,19 @@ const initializeValidation = (form, hashtagsInput, descriptionInput) => {
     errorTextClass: 'img-upload__error-text'
   });
 
-  pristine.addValidator(
-    hashtagsInput,
-    validateHashtagsCount,
-    'Максимальное количество хэш-тегов — 5'
-  );
-  pristine.addValidator(
-    hashtagsInput,
-    validateHashtagsUnique,
-    'Хэш-теги не должны повторяться'
-  );
-  pristine.addValidator(
-    hashtagsInput,
-    validateHashtagsPattern,
-    'Некорректный формат хэш-тега'
-  );
-  pristine.addValidator(
-    descriptionInput,
-    validateDescriptionLength,
-    'Длина комментария не может превышать 140 символов'
-  );
+  const validators = [
+    { input: hashtagsInput, validator: validateHashtagsPattern, message: 'Неверный формат хэш-тега' },
+    { input: hashtagsInput, validator: validateHashtagsCount, message: 'Не более 5 хэш-тегов' },
+    { input: descriptionInput, validator: validateDescriptionLength, message: 'Комментарий не должен превышать 140 символов' },
+    { input: hashtagsInput, validator: validateHashtagsUnique, message: 'Хэш-теги должны быть уникальными' }
+  ];
+
+  validators.forEach(({ input, validator, message }) => {
+    pristine.addValidator(input, validator, message);
+  });
 
   return pristine;
 };
 
 export { initializeValidation };
+

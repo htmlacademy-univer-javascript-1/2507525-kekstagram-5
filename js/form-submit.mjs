@@ -3,18 +3,18 @@ import { showSuccessMessage, showErrorMessage } from './messages.mjs';
 
 const POST_URL = 'https://29.javascript.htmlacademy.pro/kekstagram/';
 
-const submitForm = (form, pristine) => {
-  const submitButton = document.querySelector('.img-upload__submit');
+const handleSubmitForm = (formElement, validationInstance) => {
+  const submitBtn = document.querySelector('.img-upload__submit');
 
-  form.addEventListener('input', () => {
-    submitButton.disabled = !pristine.validate();
+  formElement.addEventListener('input', () => {
+    submitBtn.disabled = !validationInstance.validate();
   });
 
-  form.addEventListener('submit', (evt) => {
-    evt.preventDefault();
+  formElement.addEventListener('submit', (event) => {
+    event.preventDefault();
 
-    const formData = new FormData(form);
-    submitButton.disabled = true;
+    const formData = new FormData(formElement);
+    submitBtn.disabled = true;
 
     sendRequest({
       url: POST_URL,
@@ -23,10 +23,10 @@ const submitForm = (form, pristine) => {
       onSuccess: () => showSuccessMessage(),
       onError: () => showErrorMessage(),
       onFinally: () => {
-        submitButton.disabled = false;
+        submitBtn.disabled = false;
       },
     });
   });
 };
 
-export { submitForm };
+export { handleSubmitForm };
