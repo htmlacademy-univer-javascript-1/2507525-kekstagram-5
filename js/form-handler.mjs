@@ -52,15 +52,13 @@ const resetFormFields = () => {
   descriptionInputField.value = '';
 };
 
-const closeOverlay = () => {
+const onCloseOverlayButtonClick = () => {
   imageEditOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   resetFormFields();
   validationInstance.reset();
   resetScale();
   resetImageFilters();
-
-
 };
 
 const isInputFieldFocused = (event) => event.target === hashtagsInputField || event.target === descriptionInputField;
@@ -71,15 +69,15 @@ const setErrorMessageVisibility = (status) => {
 
 const onEscapeKeyDown = (event) => {
   if (isEscapeKey(event) && !isInputFieldFocused(event) && !isErrorMessageVisible) {
-    closeOverlay();
+    onCloseOverlayButtonClick();
   }
 };
 
 const addEventListeners = () => {
-  closeOverlayButton.addEventListener('click', closeOverlay);
+  closeOverlayButton.addEventListener('click', onCloseOverlayButtonClick);
   document.addEventListener('keydown', onEscapeKeyDown);
 };
 
 addEventListeners();
 
-export { closeOverlay, setErrorMessageVisibility };
+export { onCloseOverlayButtonClick, setErrorMessageVisibility };

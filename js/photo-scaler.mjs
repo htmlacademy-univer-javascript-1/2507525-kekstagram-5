@@ -22,11 +22,11 @@ const changeScale = (delta) => {
   updateScale();
 };
 
-const resetImageOnNewUpload = () => {
+const onImageInputChange = () => {
   resetScale();
 };
 
-document.querySelector('.img-upload__input').addEventListener('change', resetImageOnNewUpload);
+document.querySelector('.img-upload__input').addEventListener('change', onImageInputChange);
 
 smallerButton.addEventListener('click', () => changeScale(-STEP_SCALE));
 biggerButton.addEventListener('click', () => changeScale(STEP_SCALE));

@@ -1,5 +1,5 @@
 import { isEscapeKey } from './util.mjs';
-import { closeOverlay, setErrorMessageVisibility } from './form-handler.mjs';
+import { onCloseOverlayButtonClick, setErrorMessageVisibility } from './form-handler.mjs';
 
 const Z_INDEX = 999;
 const successTemplate = document.querySelector('#success');
@@ -61,7 +61,7 @@ const createMessage = (template, type, closeCallback) => {
 
 const showSuccessMessage = () => {
   document.querySelector('.img-upload__overlay').classList.add('hidden');
-  createMessage(successTemplate, '.success', closeOverlay);
+  createMessage(successTemplate, '.success', onCloseOverlayButtonClick);
 };
 
 const showErrorMessage = () => {
