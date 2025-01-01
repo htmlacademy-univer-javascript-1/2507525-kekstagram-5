@@ -1,10 +1,10 @@
 import { setImageEffect, resetImageFilters } from './photo-effects.mjs';
 
-const SLIDER_DEFAULT = { min: 0, max: 1 };
+const sliderDefault = { min: 0, max: 1 };
 const INITIAL_VALUE = 1;
 const STEP_VALUE = 0.1;
 
-const EFFECT_PROPERTIES = {
+const effectProperties = {
   chrome: { range: { min: 0, max: 1 }, step: 0.1, start: 1 },
   sepia: { range: { min: 0, max: 1 }, step: 0.1, start: 1 },
   marvin: { range: { min: 0, max: 100 }, step: 1, start: 100 },
@@ -19,7 +19,7 @@ const effectSliderContainer = document.querySelector('.effect-level');
 
 const initializeSlider = () => {
   noUiSlider.create(effectSlider, {
-    range: SLIDER_DEFAULT,
+    range: sliderDefault,
     start: INITIAL_VALUE,
     step: STEP_VALUE,
     connect: 'lower',
@@ -45,12 +45,12 @@ const updateEffect = (effect, value) => {
 
 const getSelectedEffect = () => document.querySelector('.effects__radio:checked').value;
 
-const handleEffectChange = () => {
+const effectChangeHandler = () => {
   const selectedEffect = getSelectedEffect();
   setEffectVisibility(selectedEffect);
 
   if (selectedEffect !== 'none') {
-    const settings = EFFECT_PROPERTIES[selectedEffect];
+    const settings = effectProperties[selectedEffect];
     updateSliderOptions(settings);
     updateEffect(selectedEffect, settings.start);
   } else {
@@ -58,15 +58,15 @@ const handleEffectChange = () => {
   }
 };
 
-const handleSliderUpdate = (values) => {
+const sliderUpdateHandler = (values) => {
   const effect = getSelectedEffect();
   const value = values[0];
   updateEffect(effect, value);
 };
 
 const addEventListeners = () => {
-  effectRadioBtns.forEach((btn) => btn.addEventListener('change', handleEffectChange));
-  effectSlider.noUiSlider.on('update', handleSliderUpdate);
+  effectRadioBtns.forEach((btn) => btn.addEventListener('change', effectChangeHandler));
+  effectSlider.noUiSlider.on('update', sliderUpdateHandler);
 };
 
 initializeSlider();
